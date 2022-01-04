@@ -1,10 +1,6 @@
 <template>
   <v-list subheader two-line flat>
-    <div
-      v-for="task in $store.state.tasks"
-      :key="task.id"
-      :class="{ 'blue lighten-5': task.completed }"
-    >
+    <div :class="{ 'blue lighten-5': task.completed }">
       <v-list-item @click="doneTask(task.id)">
         <template v-slot:default>
           <v-list-item-action>
@@ -37,6 +33,7 @@
 import Vue from "vue";
 
 export default Vue.extend({
+  props: ["task"],
   methods: {
     doneTask(id: number) {
       this.$store.commit("doneTask", id);
