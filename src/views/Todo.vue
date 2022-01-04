@@ -1,24 +1,15 @@
 <template>
   <div class="pa-6">
     <div class="mb-3">
-      <v-text-field
-        outlined
-        label="Add task"
-        append-icon="mdi-plus"
-        hide-details
-        clearable
-        @click:append="addTask"
-        @keyup.enter="addTask"
-        v-model="newTaskTitle"
-      ></v-text-field>
+      <field-add-task />
     </div>
-    <v-list subheader two-line flat v-if="tasks.length">
+    <v-list subheader two-line flat v-if="$store.state.tasks.length">
       <div
-        v-for="task in tasks"
+        v-for="task in $store.state.tasks"
         :key="task.id"
         :class="{ 'blue lighten-5': task.completed }"
       >
-        <v-list-item @click="handleCompleted(task.id)">
+        <v-list-item @click="doneTask(task.id)">
           <template v-slot:default>
             <v-list-item-action>
               <v-checkbox
@@ -35,7 +26,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn icon @click.stop="handleDelete(task.id)">
+              <v-btn icon @click.stop="deleteTask(task.id)">
                 <v-icon color="primary lighten-1">mdi-delete</v-icon>
               </v-btn>
             </v-list-item-action>
@@ -57,46 +48,21 @@
 
 <script lang="ts">
 import Vue from "vue";
-
-interface ITask {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-interface IData {
-  tasks: ITask[];
-  newTaskTitle: string;
-}
+import FieldAddTask from "../components/Todo/FieldAddTask.vue";
 
 export default Vue.extend({
   name: "Home",
 
   methods: {
-    handleCompleted(id: number) {
-      const task = this.tasks.find((task) => task.id === id);
-      if (task) {
-        task.completed = !task.completed;
-      }
+    doneTask(id: number) {
+      this.$store.commit("doneTask", id);
     },
-    handleDelete(id: number) {
-      this.tasks = this.tasks.filter((task) => task.id !== id);
-    },
-    addTask() {
-      this.tasks.push({
-        id: this.tasks.length + 1,
-        title: this.newTaskTitle,
-        completed: false,
-      });
-      this.newTaskTitle = "";
+    deleteTask(id: number) {
+      this.$store.commit("deleteTask", id);
     },
   },
-
-  data(): IData {
-    return {
-      newTaskTitle: "",
-      tasks: [],
-    };
+  components: {
+    'field-add-task' : FieldAddTask,
   },
 });
 </script>
