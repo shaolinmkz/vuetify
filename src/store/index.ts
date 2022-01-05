@@ -5,6 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    snackbar: {
+      show: false,
+      text: "",
+    },
     newTaskTitle: "",
     tasks: [
       {
@@ -41,8 +45,32 @@ export default new Vuex.Store({
     deleteTask(state, payload) {
       state.tasks = state.tasks.filter((task) => task.id !== payload);
     },
+    toggleSnackbar(state, { show = true, text }) {
+      if(state.snackbar.show) {
+        window.requestAnimationFrame(() => {
+          state.snackbar.show = false;
+        })
+      }
+
+      window.requestAnimationFrame(() => {
+        state.snackbar.show = show;
+        state.snackbar.text = text;
+      })
+    },
   },
   actions: {
+    addTask({ commit }, payload) {
+      commit('addTask', payload);
+      commit('toggleSnackbar', { text: 'Task added!' });
+    },
+    deleteTask({ commit }, payload) {
+      commit('deleteTask', payload);
+      commit('toggleSnackbar', { text: 'Task deleted!' });
+    },
+    doneTask({ commit, state }, payload) {
+      commit('doneTask', payload);
+      commit('toggleSnackbar', { text: state.tasks.find(({ id }) => id === payload)?.completed ? 'Task done!' : 'Task undone!' });
+    },
   },
   getters: {
   },

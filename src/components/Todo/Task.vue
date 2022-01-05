@@ -36,10 +36,10 @@ export default Vue.extend({
   props: ["task"],
   methods: {
     doneTask(id: number) {
-      this.$store.commit("doneTask", id);
+      this.$store.dispatch("doneTask", id);
     },
     deleteTask(id: number) {
-      this.$store.commit("deleteTask", id);
+      this.$store.dispatch("deleteTask", id);
     },
   },
 });

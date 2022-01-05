@@ -23,13 +23,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      app
-      color="primary"
-      dark
-      shrink-on-scroll
-      src="mountain.jpg"
-    >
+    <v-app-bar app color="primary" dark shrink-on-scroll src="mountain.jpg">
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
@@ -57,13 +51,18 @@
     </v-app-bar>
 
     <v-main>
-     <router-view></router-view>
+      <router-view></router-view>
     </v-main>
+
+    <snack-bar />
   </v-app>
 </template>
 
 <script>
 export default {
+  components: {
+    "snack-bar": () => import("./components/Shared/SnackBar.vue"),
+  },
   data: () => ({
     drawer: false,
     items: [
