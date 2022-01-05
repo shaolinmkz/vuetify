@@ -18,7 +18,7 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <v-btn icon @click.stop="deleteTask(task.id)">
+            <v-btn icon @click.stop="triggerDeleteTask(task)">
               <v-icon color="primary lighten-1">mdi-delete</v-icon>
             </v-btn>
           </v-list-item-action>
@@ -26,20 +26,34 @@
       </v-list-item>
       <v-divider></v-divider>
     </div>
+
   </v-list>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
+interface ITask {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
 export default Vue.extend({
-  props: ["task"],
+  props: ["task",],
+
+  data() {
+    return {
+      activeTodo: null,
+      dialog: false,
+    };
+  },
   methods: {
     doneTask(id: number) {
       this.$store.dispatch("doneTask", id);
     },
-    deleteTask(id: number) {
-      this.$store.dispatch("deleteTask", id);
+    triggerDeleteTask(task: ITask) {
+      this.$emit("onDeleteTrigger", task);
     },
   },
 });
