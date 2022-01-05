@@ -3,8 +3,8 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="text-h6"> Vuetify Todo </v-list-item-title>
-          <v-list-item-subtitle> Task Mgr </v-list-item-subtitle>
+          <v-list-item-title class="text-h6">Vuetify</v-list-item-title>
+          <v-list-item-subtitle> Task Manager </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 

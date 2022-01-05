@@ -26,20 +26,20 @@
 <script>
 import Vue from "vue";
 export default Vue.extend({
-  props: ["triggerDeleteTask", "task"],
+  props: ["triggerDeleteTask", "triggerEditTask", "task"],
   data() {
     return {
       menus: [
-        { title: "Edit", icon: "mdi-pencil", trigger: () => {} },
-        {
-          title: "Delete",
-          icon: "mdi-delete",
-          trigger: this.triggerDeleteTask,
-        },
+        { title: "Edit", icon: "mdi-pencil", trigger: this.triggerEditTask },
         {
           title: "Due Date",
           icon: "mdi-calendar-range",
           trigger: () => {},
+        },
+        {
+          title: "Delete",
+          icon: "mdi-delete",
+          trigger: this.triggerDeleteTask,
         },
       ],
     };

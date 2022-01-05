@@ -5,13 +5,21 @@
       :key="task.id"
       :task="task"
       @onDeleteTrigger="triggerDeleteTask"
+      @onEditTrigger="triggerEditTask"
     />
     <delete-dialog
-      v-if="activeTodo && dialog"
+      v-if="activeTodo && dialogs.delete"
       :task="activeTodo"
-      :dialog="dialog"
-      :toggleDialog="toggleDialog"
+      :dialog="dialogs.delete"
+      :toggleDialog="toggleDeleteDialog"
       @onDeleteComplete="reset"
+    />
+    <edit-dialog
+      v-if="activeTodo && dialogs.edit"
+      :task="activeTodo"
+      :dialog="dialogs.edit"
+      :toggleDialog="toggleEditDialog"
+      @onEditComplete="reset"
     />
   </v-list>
 </template>
@@ -28,26 +36,38 @@ interface ITask {
 
 export default Vue.extend({
   components: {
-    "delete-dialog": () => import("@/components/Todo/Dialog/DeleteDialog.vue"),
+    "edit-dialog": () => import("@/components/Todo/Dialogs/EditDialog.vue"),
+    "delete-dialog": () => import("@/components/Todo/Dialogs/DeleteDialog.vue"),
     task: Task,
   },
   data() {
     return {
       activeTodo: null as ITask | null,
-      dialog: false,
+      dialogs: { 
+        delete: false,
+        edit: false,
+      },
     };
   },
   methods: {
     triggerDeleteTask(task: ITask) {
       this.activeTodo = task;
-      this.toggleDialog();
+      this.toggleDeleteDialog();
+    },
+    triggerEditTask(task: ITask) {
+      this.activeTodo = task;
+      this.toggleEditDialog();
     },
     reset() {
-      this.dialog = false;
+      this.dialogs.delete = false;
+      this.dialogs.edit = false;
       this.activeTodo = null;
     },
-    toggleDialog() {
-      this.dialog = !this.dialog;
+    toggleEditDialog() {
+      this.dialogs.edit = !this.dialogs.edit;
+    },
+    toggleDeleteDialog() {
+      this.dialogs.delete = !this.dialogs.delete;
     },
   },
 });

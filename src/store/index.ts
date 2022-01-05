@@ -36,6 +36,9 @@ export default new Vuex.Store({
         completed: false,
       });
     },
+    editTask(state, payload) {
+      state.tasks = state.tasks.map((task) => payload.id === task.id ? payload : task);
+    },
     doneTask(state, payload) {
       const task = state.tasks.find((task) => task.id === payload);
       if (task) {
@@ -46,7 +49,7 @@ export default new Vuex.Store({
       state.tasks = state.tasks.filter((task) => task.id !== payload);
     },
     toggleSnackbar(state, { show = true, text }) {
-      if(state.snackbar.show) {
+      if (state.snackbar.show) {
         window.requestAnimationFrame(() => {
           state.snackbar.show = false;
         })
@@ -62,6 +65,10 @@ export default new Vuex.Store({
     addTask({ commit }, payload) {
       commit('addTask', payload);
       commit('toggleSnackbar', { text: 'Task added!' });
+    },
+    editTask({ commit }, payload) {
+      commit('editTask', payload);
+      commit('toggleSnackbar', { text: 'Task edited!' });
     },
     deleteTask({ commit }, payload) {
       commit('deleteTask', payload);

@@ -18,7 +18,11 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <task-menu :triggerDeleteTask="triggerDeleteTask" :task="task" />
+            <task-menu
+              :triggerDeleteTask="triggerDeleteTask"
+              :triggerEditTask="triggerEditTask"
+              :task="task"
+            />
           </v-list-item-action>
         </template>
       </v-list-item>
@@ -53,6 +57,9 @@ export default Vue.extend({
     },
     triggerDeleteTask(task: ITask) {
       this.$emit("onDeleteTrigger", task);
+    },
+    triggerEditTask(task: ITask) {
+      this.$emit("onEditTrigger", task);
     },
   },
 });
