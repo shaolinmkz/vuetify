@@ -11,10 +11,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="black darken-1" text @click="$emit('onDeleteComplete')">
-            Disagree
+            No
           </v-btn>
           <v-btn color="red darken-1" text @click="deleteTask(task.id)">
-            Agree
+            Yes
           </v-btn>
         </v-card-actions>
       </v-card>
