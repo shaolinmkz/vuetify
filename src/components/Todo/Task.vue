@@ -18,15 +18,12 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <v-btn icon @click.stop="triggerDeleteTask(task)">
-              <v-icon color="primary lighten-1">mdi-delete</v-icon>
-            </v-btn>
+            <task-menu :triggerDeleteTask="triggerDeleteTask" :task="task" />
           </v-list-item-action>
         </template>
       </v-list-item>
       <v-divider></v-divider>
     </div>
-
   </v-list>
 </template>
 
@@ -40,8 +37,10 @@ interface ITask {
 }
 
 export default Vue.extend({
-  props: ["task",],
-
+  props: ["task"],
+  components: {
+    "task-menu": () => import("@/components/Todo/TaskMenu.vue"),
+  },
   data() {
     return {
       activeTodo: null,
