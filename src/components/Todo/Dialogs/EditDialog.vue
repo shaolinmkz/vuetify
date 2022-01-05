@@ -16,7 +16,14 @@
           <v-btn color="black darken-1" text @click="$emit('onEditComplete')">
             Cancel
           </v-btn>
-          <v-btn color="red darken-1" text @click="editTask(task)"> Save </v-btn>
+          <v-btn
+            color="red darken-1"
+            text
+            :disabled="!isNotEmpty"
+            @click="editTask(task)"
+          >
+            Save
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -38,11 +45,24 @@ export default Vue.extend({
   },
   methods: {
     editTask(task) {
-      this.$store.dispatch("editTask", { ...task, title: this.editedTitle });
-      this.$emit("onEditComplete");
+      if (
+        /[a-z]/gim.test(`${this.editedTitle}`) ||
+        /[0-9]/gim.test(`${this.editedTitle}`)
+      ) {
+        this.$store.dispatch("editTask", { ...task, title: this.editedTitle });
+        this.$emit("onEditComplete");
+      }
     },
     handleChange(value) {
       this.editedTitle = value;
+    },
+  },
+  computed: {
+    isNotEmpty() {
+      return (
+        /[a-z]/gim.test(`${this.editedTitle}`) ||
+        /[0-9]/gim.test(`${this.editedTitle}`)
+      );
     },
   },
 });
