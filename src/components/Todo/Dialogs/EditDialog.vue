@@ -14,9 +14,9 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="black darken-1" text @click="$emit('onEditComplete')">
-            No
+            Cancel
           </v-btn>
-          <v-btn color="red darken-1" text @click="editTask(task)"> Yes </v-btn>
+          <v-btn color="red darken-1" text @click="editTask(task)"> Save </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
