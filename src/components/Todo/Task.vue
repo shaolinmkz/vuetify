@@ -17,10 +17,18 @@
             >
           </v-list-item-content>
 
+          <v-list-item-action v-if="task.dueDate">
+            <v-list-item-action-text>
+              <v-icon small>mdi-calendar</v-icon>
+              {{ task.dueDate | prettyDate }}
+              </v-list-item-action-text>
+          </v-list-item-action>
+
           <v-list-item-action>
             <task-menu
               :triggerDeleteTask="triggerDeleteTask"
               :triggerEditTask="triggerEditTask"
+              :triggerSetDate="triggerSetDate"
               :task="task"
             />
           </v-list-item-action>
@@ -33,6 +41,8 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { format } from 'date-fns'
+
 
 interface ITask {
   id: number;
@@ -51,6 +61,11 @@ export default Vue.extend({
       dialog: false,
     };
   },
+  filters: {
+    prettyDate(value: string) {
+      return format(new Date(value), 'MMM d')
+    }
+  },
   methods: {
     doneTask(id: number) {
       this.$store.dispatch("doneTask", id);
@@ -60,6 +75,9 @@ export default Vue.extend({
     },
     triggerEditTask(task: ITask) {
       this.$emit("onEditTrigger", task);
+    },
+    triggerSetDate(task: ITask) {
+      this.$emit("onDateTrigger", task);
     },
   },
 });

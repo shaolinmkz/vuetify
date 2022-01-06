@@ -26,7 +26,7 @@
 <script>
 import Vue from "vue";
 export default Vue.extend({
-  props: ["triggerDeleteTask", "triggerEditTask", "task"],
+  props: ["triggerDeleteTask", "triggerEditTask", "triggerSetDate", "task"],
   data() {
     return {
       menus: [
@@ -34,7 +34,7 @@ export default Vue.extend({
         {
           title: "Due Date",
           icon: "mdi-calendar-range",
-          trigger: () => {},
+          trigger: this.triggerSetDate,
         },
         {
           title: "Delete",

@@ -6,6 +6,7 @@
       :task="task"
       @onDeleteTrigger="triggerDeleteTask"
       @onEditTrigger="triggerEditTask"
+      @onDateTrigger="triggerSetDueDate"
     />
     <delete-dialog
       v-if="activeTodo && dialogs.delete"
@@ -20,6 +21,13 @@
       :dialog="dialogs.edit"
       :toggleDialog="toggleEditDialog"
       @onEditComplete="reset"
+    />
+    <due-date-dialog
+      v-if="activeTodo && dialogs.date"
+      :dialog="dialogs.date"
+      :toggleDateDialog="toggleDateDialog"
+      :task="activeTodo"
+      @onSetDate="reset"
     />
   </v-list>
 </template>
@@ -38,6 +46,7 @@ export default Vue.extend({
   components: {
     "edit-dialog": () => import("@/components/Todo/Dialogs/EditDialog.vue"),
     "delete-dialog": () => import("@/components/Todo/Dialogs/DeleteDialog.vue"),
+    "due-date-dialog": () => import("@/components/Todo/Dialogs/DueDateDialog.vue"),
     task: Task,
   },
   data() {
@@ -46,6 +55,7 @@ export default Vue.extend({
       dialogs: { 
         delete: false,
         edit: false,
+        date: false,
       },
     };
   },
@@ -58,13 +68,21 @@ export default Vue.extend({
       this.activeTodo = task;
       this.toggleEditDialog();
     },
+    triggerSetDueDate(task: ITask) {
+      this.activeTodo = task;
+      this.toggleDateDialog();
+    },
     reset() {
       this.dialogs.delete = false;
       this.dialogs.edit = false;
+      this.dialogs.date = false;
       this.activeTodo = null;
     },
     toggleEditDialog() {
       this.dialogs.edit = !this.dialogs.edit;
+    },
+    toggleDateDialog() {
+      this.dialogs.date = !this.dialogs.date;
     },
     toggleDeleteDialog() {
       this.dialogs.delete = !this.dialogs.delete;

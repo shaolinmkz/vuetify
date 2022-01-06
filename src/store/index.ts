@@ -15,16 +15,19 @@ export default new Vuex.Store({
         id: 1,
         title: 'Learn Vue JS',
         completed: false,
+        dueDate: '2021-10-16'
       },
       {
         id: 2,
         title: 'Learn Vuex',
         completed: false,
+        dueDate: '2021-10-17'
       },
       {
         id: 3,
         title: 'Learn Vuetify',
         completed: false,
+        dueDate: null,
       },
     ]
   },
@@ -34,6 +37,7 @@ export default new Vuex.Store({
         id: state.tasks.length + 1,
         title: payload,
         completed: false,
+        dueDate: null,
       });
     },
     editTask(state, payload) {
@@ -68,7 +72,7 @@ export default new Vuex.Store({
     },
     editTask({ commit }, payload) {
       commit('editTask', payload);
-      commit('toggleSnackbar', { text: 'Task edited!' });
+      commit('toggleSnackbar', { text: 'Task updated!' });
     },
     deleteTask({ commit }, payload) {
       commit('deleteTask', payload);
