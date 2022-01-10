@@ -23,7 +23,7 @@ export default {
   props: ["searchTerm", "onSearch"],
   data() {
     return {
-      collapse: false,
+      collapse: true,
     }
   }
 };

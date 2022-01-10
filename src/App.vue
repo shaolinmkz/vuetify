@@ -23,7 +23,14 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="primary" dark shrink-on-scroll src="mountain.jpg">
+    <v-app-bar
+      app
+      color="primary"
+      height="170"
+      dark
+      shrink-on-scroll
+      src="mountain.jpg"
+    >
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
@@ -45,6 +52,9 @@
         <v-row class="ml-0">
           <v-app-bar-title>Task Manager</v-app-bar-title>
         </v-row>
+        <v-row class="ml-0">
+          <span class="text-subtitle-1">{{ dateValue | formatDate }}</span>
+        </v-row>
       </v-container>
     </v-app-bar>
 
@@ -57,8 +67,13 @@
 </template>
 
 <script>
+import Vue from "vue";
+import { format } from "date-fns";
+
 let searchTimerRef = null;
-export default {
+let getDateRef = null;
+
+export default Vue.extend({
   components: {
     "snack-bar": () => import("./components/Shared/SnackBar.vue"),
     "search-field": () => import("./components/Shared/SearchField.vue"),
@@ -70,6 +85,7 @@ export default {
       { title: "About", icon: "mdi-help-circle-outline", to: "/about" },
     ],
     right: null,
+    dateValue: new Date(),
   }),
   methods: {
     handleChange(value) {
@@ -78,8 +94,24 @@ export default {
         this.$store.commit("searchTask", value);
       }, 500);
     },
+    getDate() {
+      getDateRef = setInterval(() => {
+        this.dateValue = new Date();
+      }, 1000);
+    },
   },
-};
+  filters: {
+    formatDate(value) {
+      return format(new Date(value), "MMMM d, H:mm:ss");
+    },
+  },
+  mounted() {
+    this.getDate();
+  },
+  unmounted() {
+    clearInterval(getDateRef);
+  },
+});
 </script>
 
 <style lang="scss">
