@@ -1,4 +1,6 @@
-# vuetify-task-manager
+# Vuetify Task Manager
+
+<img src="./screenshoot.png" alt="sample" width="300px">
 
 ## Project setup
 ```
