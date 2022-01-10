@@ -69,9 +69,6 @@ export default new Vuex.Store({
     },
     searchTask(state, payload) {
       state.searchTerm = payload;
-      // @ts-ignore
-      const searchResult = state.tasks.filter(({ title }) => title.toLowerCase().includes(`${payload}`.toLowerCase()));
-      state.tasks = payload ? searchResult : initTask;
     },
   },
   actions: {
@@ -93,6 +90,10 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    filteredSearch(state) {
+      const searchResult = state.tasks.filter(({ title }) => title.toLowerCase().includes(`${state.searchTerm}`.toLowerCase()));
+      return state.searchTerm ? searchResult : state.tasks;
+    }
   },
   modules: {
   }

@@ -1,7 +1,7 @@
 <template>
   <v-list subheader two-line flat>
     <task
-      v-for="task in $store.state.tasks"
+      v-for="task in $store.getters.filteredSearch"
       :key="task.id"
       :task="task"
       @onDeleteTrigger="triggerDeleteTask"

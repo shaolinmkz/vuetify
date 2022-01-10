@@ -4,7 +4,7 @@
       <field-add-task />
     </div>
 
-    <list-tasks v-if="!!$store.state.tasks.length" />
+    <list-tasks v-if="!!$store.getters.filteredSearch.length" />
 
     <no-task v-else />
   </div>
