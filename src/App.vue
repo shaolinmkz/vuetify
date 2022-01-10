@@ -31,29 +31,21 @@
         ></v-img>
       </template>
 
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-container>
+        <v-row>
+          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+          <v-spacer></v-spacer>
 
-      <v-app-bar-title>Task</v-app-bar-title>
+          <search-field
+            :searchTerm="$store.state.searchTerm"
+            :onSearch="handleChange"
+          ></search-field>
+        </v-row>
 
-      <v-spacer></v-spacer>
-
-      <v-text-field
-        class="search-input mt-2"
-        :class="{ collapse }"
-        placeholder="Search"
-        outlined
-        dense
-        ref="searchRef"
-        :value="$store.state.searchTerm"
-        prepend-inner-icon="mdi-magnify"
-        @click:prepend-inner="
-          collapse = !collapse;
-          $refs.searchRef.focus();
-        "
-        @focus="collapse = false"
-        @blur="collapse = !$store.state.searchTerm"
-        @input="handleChange"
-      ></v-text-field>
+        <v-row class="ml-0">
+          <v-app-bar-title>Task Manager</v-app-bar-title>
+        </v-row>
+      </v-container>
     </v-app-bar>
 
     <v-main>
@@ -69,6 +61,7 @@ let searchTimerRef = null;
 export default {
   components: {
     "snack-bar": () => import("./components/Shared/SnackBar.vue"),
+    "search-field": () => import("./components/Shared/SearchField.vue"),
   },
   data: () => ({
     drawer: false,
@@ -77,7 +70,6 @@ export default {
       { title: "About", icon: "mdi-help-circle-outline", to: "/about" },
     ],
     right: null,
-    collapse: true,
   }),
   methods: {
     handleChange(value) {
@@ -90,7 +82,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .search-input {
   transition: max-width 0.3s linear;
 
@@ -101,5 +93,11 @@ export default {
   &.collapse {
     max-width: 50px !important;
   }
+}
+
+.v-app-bar-title__placeholder,
+.v-app-bar-title__content {
+  overflow: initial !important;
+  text-overflow: initial !important;
 }
 </style>
