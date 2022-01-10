@@ -1,35 +1,38 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+
+const initTask = [
+  {
+    id: 1,
+    title: 'Learn Vue JS',
+    completed: false,
+    dueDate: '2021-10-16'
+  },
+  {
+    id: 2,
+    title: 'Learn Vuex',
+    completed: false,
+    dueDate: '2021-10-17'
+  },
+  {
+    id: 3,
+    title: 'Learn Vuetify',
+    completed: false,
+    dueDate: null,
+  },
+];
 
 export default new Vuex.Store({
   state: {
+    searchTerm: "",
     snackbar: {
       show: false,
       text: "",
     },
     newTaskTitle: "",
-    tasks: [
-      {
-        id: 1,
-        title: 'Learn Vue JS',
-        completed: false,
-        dueDate: '2021-10-16'
-      },
-      {
-        id: 2,
-        title: 'Learn Vuex',
-        completed: false,
-        dueDate: '2021-10-17'
-      },
-      {
-        id: 3,
-        title: 'Learn Vuetify',
-        completed: false,
-        dueDate: null,
-      },
-    ]
+    tasks: initTask,
   },
   mutations: {
     addTask(state, payload) {
@@ -63,6 +66,12 @@ export default new Vuex.Store({
         state.snackbar.show = show;
         state.snackbar.text = text;
       })
+    },
+    searchTask(state, payload) {
+      state.searchTerm = payload;
+      // @ts-ignore
+      const searchResult = state.tasks.filter(({ title }) => title.toLowerCase().includes(`${payload}`.toLowerCase()));
+      state.tasks = payload ? searchResult : initTask;
     },
   },
   actions: {

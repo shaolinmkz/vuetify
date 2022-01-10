@@ -37,9 +37,23 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+      <v-text-field
+        class="search-input mt-2"
+        :class="{ collapse }"
+        placeholder="Search"
+        outlined
+        dense
+        ref="searchRef"
+        :value="$store.state.searchTerm"
+        prepend-inner-icon="mdi-magnify"
+        @click:prepend-inner="
+          collapse = !collapse;
+          $refs.searchRef.focus();
+        "
+        @focus="collapse = false"
+        @blur="collapse = !$store.state.searchTerm"
+        @input="handleChange"
+      ></v-text-field>
     </v-app-bar>
 
     <v-main>
@@ -51,6 +65,7 @@
 </template>
 
 <script>
+let searchTimerRef = null;
 export default {
   components: {
     "snack-bar": () => import("./components/Shared/SnackBar.vue"),
@@ -62,6 +77,29 @@ export default {
       { title: "About", icon: "mdi-help-circle-outline", to: "/about" },
     ],
     right: null,
+    collapse: true,
   }),
+  methods: {
+    handleChange(value) {
+      clearTimeout(searchTimerRef);
+      searchTimerRef = setTimeout(() => {
+        this.$store.commit("searchTask", value);
+      }, 500);
+    },
+  },
 };
 </script>
+
+<style scoped lang="scss">
+.search-input {
+  transition: max-width 0.3s linear;
+
+  .v-input__control {
+    cursor: pointer !important;
+  }
+
+  &.collapse {
+    max-width: 50px !important;
+  }
+}
+</style>
