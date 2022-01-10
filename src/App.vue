@@ -115,18 +115,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.search-input {
-  transition: max-width 0.3s linear;
-
-  .v-input__control {
-    cursor: pointer !important;
-  }
-
-  &.collapse {
-    max-width: 50px !important;
-  }
-}
-
 .v-app-bar-title__placeholder,
 .v-app-bar-title__content {
   overflow: initial !important;

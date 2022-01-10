@@ -28,3 +28,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.search-input {
+  transition: max-width 0.3s linear;
+
+  .v-input__control {
+    cursor: pointer !important;
+  }
+
+  &.collapse {
+    max-width: 50px !important;
+  }
+}
+</style>
